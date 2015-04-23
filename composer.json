@@ -1,0 +1,6 @@
+{
+    "require": {
+        "slim/slim": "~2.6",
+        "tuupola/slim-jwt-auth": "0.1.*"
+    }
+}

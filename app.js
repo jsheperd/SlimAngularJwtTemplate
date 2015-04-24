@@ -12,15 +12,15 @@ angular.module('JwtDemoApp', ['angular-jwt'])
     $scope.output = '';
 
     $scope.getPublicData = function () {
-      loadData('/public');
+      showResult('/public');
     };
 
     $scope.getPrivateData = function () {
-      loadData('/secured');
+      showResult('/secured');
     };
 
     $scope.getPrivateAdminData = function () {
-      loadData('/secured/admin');
+      showResult('/secured/admin');
     };
 
     $scope.getToken = function () {
@@ -41,6 +41,7 @@ angular.module('JwtDemoApp', ['angular-jwt'])
 
     $scope.deleteToken = function () {
       localStorage.removeItem('jwt_token');
+        $scope.output  = "";
     }
 
     function loadData(endpoint) {
@@ -55,4 +56,20 @@ angular.module('JwtDemoApp', ['angular-jwt'])
           }, null, 2);
         });
     }
+    
+    function showResult(endpoint) {
+      return $http.get(endpoint)
+        .success(function (response) {
+          $scope.result = response.data;
+        })
+        .error(function (data, status) {
+          $scope.result = 'Error! ' + JSON.stringify({
+            responseData: data,
+            responseStatus: status
+          }, null, 2);
+        });
+    }
+    
+    
+    
   });

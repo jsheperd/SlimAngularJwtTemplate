@@ -1,0 +1,45 @@
+<DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Slim + Angular + JWT</title>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+
+        <script src="app.js"></script>
+    </head>
+
+    <body ng-app="JwtDemoApp">
+        <div ng-controller="DemoController" class="container">
+            <h1 class="jumbotron">Hello, JWT World!</h1>
+            <div class="container col-md-2">
+                <div class="btn-group btn-group-vertical">
+                    <button class="btn btn-default" ng-click="getToken()">Get token</button>
+                    <button class="btn btn-default" ng-click="getAdminToken()">Get admin token</button>
+                    <button class="btn btn-default" ng-click="deleteToken()">Delete token</button>
+                </div>
+            </div>
+            <div class="container  col-md-4">
+                <h3>Token</h3>
+                <pre>{{output}}</pre>
+            </div>
+            <div class="container col-md-2">
+                <div class="btn-group btn-group-vertical">
+                    <button class="btn btn-default btn-large" ng-click="getPublicData()">Get public data</button>
+                    <button class="btn btn-default btn-large" ng-click="getPrivateData()">Get private data</button>
+                    <button class="btn btn-default btn-large" ng-click="getPrivateAdminData()">Get private admin data</button>
+                </div>
+            </div>
+
+            <div class="container col-md-4">
+                <h3>Result</h3>
+                <pre>{{result}}</pre>
+            </div>
+        </div>
+    </body>
+
+    </html>

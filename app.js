@@ -10,21 +10,22 @@ angular.module('JwtDemoApp', ['angular-jwt'])
 
   .controller('DemoController', function ($scope, $http, jwtHelper) {
     $scope.output = '';
-
+    $scope.pathname = window.location.pathname;
+  
     $scope.getPublicData = function () {
-      showResult('/public');
+      showResult('public');
     };
 
     $scope.getPrivateData = function () {
-      showResult('/secured');
+      showResult('secured');
     };
 
     $scope.getPrivateAdminData = function () {
-      showResult('/secured/admin');
+      showResult('secured/admin');
     };
 
     $scope.getToken = function () {
-      loadData('/token')
+      loadData('token')
         .success(function (response) {
           $scope.output = JSON.stringify(jwtHelper.decodeToken(response.token), null, 2);
           localStorage.setItem('jwt_token', response.token);
@@ -32,7 +33,7 @@ angular.module('JwtDemoApp', ['angular-jwt'])
     };
 
     $scope.getAdminToken = function () {
-      loadData('/admintoken')
+      loadData('admintoken')
         .success(function (response) {
           $scope.output = JSON.stringify(jwtHelper.decodeToken(response.token), null, 2);
           localStorage.setItem('jwt_token', response.token);
@@ -45,7 +46,8 @@ angular.module('JwtDemoApp', ['angular-jwt'])
     }
 
     function loadData(endpoint) {
-      return $http.get(endpoint)
+      var extended_endpoint = $scope.pathname + endpoint;
+      return $http.get(extended_endpoint)
         .success(function (response) {
           $scope.output = response.data;
         })
@@ -58,7 +60,8 @@ angular.module('JwtDemoApp', ['angular-jwt'])
     }
     
     function showResult(endpoint) {
-      return $http.get(endpoint)
+      var extended_endpoint = $scope.pathname + endpoint;
+      return $http.get(extended_endpoint)
         .success(function (response) {
           $scope.result = response.data;
         })

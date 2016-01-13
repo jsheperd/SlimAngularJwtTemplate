@@ -6,7 +6,7 @@ Slim Angular Jwt Template for demonstrate jwt usage with Angular from Slim.
 
 ## PHP embedded webserver
 
-- php>git clone
+- php>git clone https://github.com/jsheperd/SlimAngularJwtTemplate
 - php>cd SlimAngularJwtTemplate
 - php>bower install
 - php>composer install

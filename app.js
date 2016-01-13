@@ -8,71 +8,95 @@ angular.module('JwtDemoApp', ['angular-jwt'])
     $httpProvider.interceptors.push('jwtInterceptor');
   })
 
-  .controller('DemoController', function ($scope, $http, jwtHelper) {
-    $scope.output = '';
+  .controller('DemoController', function ($scope, $http, $window, jwtHelper) {
+    $scope.token = null;
     $scope.pathname = window.location.pathname;
+    $scope.responseSuccess = null;
+
+    $scope.fullPath = function(endpoint) {
+      return $scope.pathname + endpoint; 
+    };
   
+  
+    $scope.tokenFromStorage = function () {
+      return $window.localStorage.getItem('jwt_token');  
+    };
+  
+    $scope.tokenFromStorageAsString = function() {
+      var token = $scope.tokenFromStorage();
+      if(token) {
+        return JSON.stringify(jwtHelper.decodeToken(token));
+      } else {
+        return null;
+      }
+    };
+
+    $scope.responseAsString = function() {
+      if($scope.response) {
+        return JSON.stringify($scope.response, null, 2);
+      } else {
+        return "";
+      }
+    };
+
+    // Connect to the API
     $scope.getPublicData = function () {
-      showResult('public');
+      $http.get($scope.fullPath('public')).then(
+        function (response) { $scope.response = response; $scope.responseSuccess = true;},
+        function (response) { $scope.response = response; $scope.responseSuccess = false;}
+      );
+    };
+        
+    $scope.getSecuredData = function () {
+      $http.get($scope.fullPath('secured')).then(
+        function (response) { $scope.response = response; $scope.responseSuccess = true;},
+        function (response) { $scope.response = response; $scope.responseSuccess = false;}
+      );
     };
 
-    $scope.getPrivateData = function () {
-      showResult('secured');
+    $scope.getSecuredAdminData = function () {
+      $http.get($scope.fullPath('secured/admin')).then(
+        function (response) { $scope.response = response; $scope.responseSuccess = true;},
+        function (response) { $scope.response = response; $scope.responseSuccess = false;}
+      );
     };
 
-    $scope.getPrivateAdminData = function () {
-      showResult('secured/admin');
-    };
-
+    // Token handling
     $scope.getToken = function () {
-      loadData('token')
-        .success(function (response) {
-          $scope.output = JSON.stringify(jwtHelper.decodeToken(response.token), null, 2);
-          localStorage.setItem('jwt_token', response.token);
-        });
+      $http.get($scope.fullPath('token')).then(
+        function (response) { console.log(response);
+                              $scope.response = response;
+                              $scope.token = response.data.data.token;
+                              $scope.responseSuccess = true;
+                              $window.localStorage.setItem('jwt_token', response.data.data.token);
+                            },
+        function (response) { $scope.response = null;
+                              $scope.token = null;
+                              $scope.responseSuccess = false;
+                              $window.localStorage.removeItem('jwt_token');
+                            }
+        );
     };
 
     $scope.getAdminToken = function () {
-      loadData('admintoken')
-        .success(function (response) {
-          $scope.output = JSON.stringify(jwtHelper.decodeToken(response.token), null, 2);
-          localStorage.setItem('jwt_token', response.token);
-        });
+      $http.get($scope.fullPath('admintoken')).then(
+        function (response) { console.log(response);
+                               $scope.response = response;
+                               $scope.token = response.data.data.token;
+                               $scope.responseSuccess = true;
+                               $window.localStorage.setItem('jwt_token', response.data.data.token);
+                             },
+        function (response) { $scope.response = null;
+                               $scope.token = null;
+                               $scope.responseSuccess = false;
+                               $window.localStorage.removeItem('jwt_token');
+                             }
+      );
     };
 
     $scope.deleteToken = function () {
       localStorage.removeItem('jwt_token');
-        $scope.output  = "";
-    }
-
-    function loadData(endpoint) {
-      var extended_endpoint = $scope.pathname + endpoint;
-      return $http.get(extended_endpoint)
-        .success(function (response) {
-          $scope.output = response.data;
-        })
-        .error(function (data, status) {
-          $scope.output = 'Error! ' + JSON.stringify({
-            responseData: data,
-            responseStatus: status
-          }, null, 2);
-        });
-    }
-    
-    function showResult(endpoint) {
-      var extended_endpoint = $scope.pathname + endpoint;
-      return $http.get(extended_endpoint)
-        .success(function (response) {
-          $scope.result = response.data;
-        })
-        .error(function (data, status) {
-          $scope.result = 'Error! ' + JSON.stringify({
-            responseData: data,
-            responseStatus: status
-          }, null, 2);
-        });
-    }
-    
-    
-    
+      $scope.token  = null;
+      $scope.response = null;
+    };
   });

@@ -24,21 +24,25 @@
                     <button class="btn btn-default" ng-click="deleteToken()">Delete token</button>
                 </div>
             </div>
-            <div class="container  col-md-4">
+            <div class="container col-md-4">
                 <h3>Token</h3>
-                <pre>{{output}}</pre>
+                <pre>{{tokenFromStorage()}}</pre>
+                <h3>Interpreted token</h3>
+                <pre>{{tokenFromStorageAsString()}}</pre>
             </div>
             <div class="container col-md-2">
                 <div class="btn-group btn-group-vertical">
                     <button class="btn btn-default btn-large" ng-click="getPublicData()">Get public data</button>
-                    <button class="btn btn-default btn-large" ng-click="getPrivateData()">Get private data</button>
-                    <button class="btn btn-default btn-large" ng-click="getPrivateAdminData()">Get private admin data</button>
+                    <button class="btn btn-default btn-large" ng-click="getSecuredData()">Get private data</button>
+                    <button class="btn btn-default btn-large" ng-click="getSecuredAdminData()">Get private admin data</button>
                 </div>
             </div>
 
             <div class="container col-md-4">
-                <h3>Result</h3>
-                <pre>{{result}}</pre>
+                <h3>Server response</h3>
+                <div ng-class="result_status">
+                   <pre>{{responseAsString()}}</pre>
+                </div>
             </div>
         </div>
     </body>

@@ -1,4 +1,4 @@
-# Slim Angular Jwt Example
+# Slim Angular Jwt Template Example
 
 Slim Angular Jwt Template for demonstrate jwt usage with Angular from Slim.
 
@@ -7,18 +7,18 @@ Slim Angular Jwt Template for demonstrate jwt usage with Angular from Slim.
 ## PHP embedded webserver
 
 - git clone
-- cd SlimAngularJwtExample
+- cd SlimAngularJwtTemplate
 - bower install
 - composer install
 - PHP -S localhost:8000
-- open [localhost/SlimAngularJwtExample](http://localhost/SlimAngularJwtExample)
+- open [localhost/SlimAngularJwtTemplate](http://localhost/SlimAngularJwtTemplate)
 
 ## WAMP server
 
 - wamp>cd www
 - wamp>git clone https://github.com/jsheperd/SlimAngularJwtTemplate
-- wamp>cd SlimAngularJwtExample
+- wamp>cd SlimAngularJwtTemplate
 - wamp>bower install
 - wamp>composer install
-- open [localhost/SlimAngularJwtExample](http://localhost/SlimAngularJwtExample)
+- open [localhost/SlimAngularJwtTemplate](http://localhost/SlimAngularJwtTemplate)
 

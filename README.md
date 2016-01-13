@@ -22,3 +22,4 @@ Slim Angular Jwt Template for demonstrate jwt usage with Angular from Slim.
 - wamp>composer install
 - open [localhost/SlimAngularJwtTemplate](http://localhost/SlimAngularJwtTemplate)
 
+![](images/screenshot.jpg)

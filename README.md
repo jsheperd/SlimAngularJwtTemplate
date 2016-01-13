@@ -6,12 +6,12 @@ Slim Angular Jwt Template for demonstrate jwt usage with Angular from Slim.
 
 ## PHP embedded webserver
 
-- git clone
-- cd SlimAngularJwtTemplate
-- bower install
-- composer install
-- PHP -S localhost:8000
-- open [localhost:8000/SlimAngularJwtTemplate](http://localhost:8000/SlimAngularJwtTemplate)
+- php>git clone
+- php>cd SlimAngularJwtTemplate
+- php>bower install
+- php>composer install
+- php>PHP -S localhost:8000
+- open [localhost:8000](http://localhost:8000)
 
 ## WAMP server
 

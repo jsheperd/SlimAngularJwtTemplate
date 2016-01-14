@@ -39,6 +39,10 @@
             </div>
 
             <div class="container col-md-4">
+                <h3>Server response.data</h3>
+                <div ng-class="result_status">
+                   <pre>{{responseDataAsString()}}</pre>
+                </div>
                 <h3>Server response</h3>
                 <div ng-class="result_status">
                    <pre>{{responseAsString()}}</pre>

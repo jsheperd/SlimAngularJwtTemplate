@@ -31,6 +31,14 @@ angular.module('JwtDemoApp', ['angular-jwt'])
       }
     };
 
+    $scope.responseDataAsString = function() {
+      if($scope.response && $scope.response.data) {
+        return JSON.stringify($scope.response.data, null, 2);
+      } else {
+        return "";
+      }
+    };
+  
     $scope.responseAsString = function() {
       if($scope.response) {
         return JSON.stringify($scope.response, null, 2);

@@ -1,31 +1,51 @@
 angular.module('JwtDemoApp', ['angular-jwt'])
 
-  .config(function ($httpProvider, jwtInterceptorProvider) {
-    jwtInterceptorProvider.tokenGetter = function () {
-      return localStorage.getItem('jwt_token');
+  .config(function ($httpProvider, jwtInterceptorProvider, tokenProvider) {
+    jwtInterceptorProvider.tokenGetter = function (token) {
+        return token.getToken();
     };
 
     $httpProvider.interceptors.push('jwtInterceptor');
   })
 
-  .controller('DemoController', function ($scope, $http, $window, jwtHelper) {
-    $scope.token = null;
+  .provider('token', function(){
+    var token = false;
+
+    function tokenHandler() {
+      this.getToken = function(){
+        return token;
+      }
+      
+      this.setToken = function(newToken){
+        token = newToken;
+      }
+    }
+  
+    this.$get = function() {
+      return new tokenHandler();
+    };
+  })
+
+  
+  .controller('DemoController', function ($scope, $http, $window, jwtHelper, token) {
     $scope.pathname = window.location.pathname;
     $scope.responseSuccess = null;
-
+    
     $scope.fullPath = function(endpoint) {
       return $scope.pathname + endpoint; 
     };
   
-  
-    $scope.tokenFromStorage = function () {
-      return $window.localStorage.getItem('jwt_token');  
+    $scope.strToken = function () {
+      if(token.getToken()){
+        return token.getToken();
+      } else {
+        return "";
+      }
     };
   
-    $scope.tokenFromStorageAsString = function() {
-      var token = $scope.tokenFromStorage();
-      if(token) {
-        return JSON.stringify(jwtHelper.decodeToken(token));
+    $scope.strDecodedToken = function() {
+      if(token.getToken()) {
+        return JSON.stringify(jwtHelper.decodeToken(token.getToken()));
       } else {
         return null;
       }
@@ -77,11 +97,13 @@ angular.module('JwtDemoApp', ['angular-jwt'])
                               $scope.token = response.data.data.token;
                               $scope.responseSuccess = true;
                               $window.localStorage.setItem('jwt_token', response.data.data.token);
+                              token.setToken(response.data.data.token);
                             },
         function (response) { $scope.response = null;
                               $scope.token = null;
                               $scope.responseSuccess = false;
                               $window.localStorage.removeItem('jwt_token');
+                              token.setToken(false);                             
                             }
         );
     };
@@ -93,17 +115,19 @@ angular.module('JwtDemoApp', ['angular-jwt'])
                                $scope.token = response.data.data.token;
                                $scope.responseSuccess = true;
                                $window.localStorage.setItem('jwt_token', response.data.data.token);
+                               token.setToken(response.data.data.token);
                              },
         function (response) { $scope.response = null;
                                $scope.token = null;
                                $scope.responseSuccess = false;
                                $window.localStorage.removeItem('jwt_token');
+                               token.setToken(false);                             
                              }
       );
     };
 
     $scope.deleteToken = function () {
-      localStorage.removeItem('jwt_token');
+      token.setToken(false);
       $scope.token  = null;
       $scope.response = null;
     };

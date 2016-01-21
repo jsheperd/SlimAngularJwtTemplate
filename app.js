@@ -27,7 +27,7 @@ angular.module('JwtDemoApp', ['angular-jwt'])
   })
 
   
-  .controller('DemoController', function ($scope, $http, $window, jwtHelper, token) {
+  .controller('DemoController', function ($scope, $http, jwtHelper, token) {
     $scope.pathname = window.location.pathname;
     $scope.responseSuccess = null;
     
@@ -96,13 +96,11 @@ angular.module('JwtDemoApp', ['angular-jwt'])
                               $scope.response = response;
                               $scope.token = response.data.data.token;
                               $scope.responseSuccess = true;
-                              $window.localStorage.setItem('jwt_token', response.data.data.token);
                               token.setToken(response.data.data.token);
                             },
         function (response) { $scope.response = null;
                               $scope.token = null;
                               $scope.responseSuccess = false;
-                              $window.localStorage.removeItem('jwt_token');
                               token.setToken(false);                             
                             }
         );
@@ -114,13 +112,11 @@ angular.module('JwtDemoApp', ['angular-jwt'])
                                $scope.response = response;
                                $scope.token = response.data.data.token;
                                $scope.responseSuccess = true;
-                               $window.localStorage.setItem('jwt_token', response.data.data.token);
                                token.setToken(response.data.data.token);
                              },
         function (response) { $scope.response = null;
                                $scope.token = null;
                                $scope.responseSuccess = false;
-                               $window.localStorage.removeItem('jwt_token');
                                token.setToken(false);                             
                              }
       );
